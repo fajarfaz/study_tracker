@@ -1,20 +1,23 @@
 <?php
+
+
 require_once("../mailer/src/PHPMailer.php");
 require_once("../mailer/src/SMTP.php");
 require_once("../mailer/src/Exception.php");
 include '../komponen/koneksi.php';
 
+
 $mail = new PHPMailer\PHPMailer\PHPMailer();
                              
 $mail->isSMTP();                                   
-$mail->Host = "ajtgrup.com";
+$mail->Host = "pusatmesinmalang.com";
 $mail->SMTPAuth = true;                            
-$mail->Username = "cs@ajtgrup.com";                 
-$mail->Password = "bS30;{_v?.Uv";                           
+$mail->Username = "_mainaccount@pusatmesinmalang.com";                 
+$mail->Password = "dYCy75e04k";                           
 $mail->SMTPSecure = "ssl";                           
 $mail->Port = 465;                                   
 
-$mail->From = "cs@ajtgrup.com";
+$mail->From = "cs@pusatmesinmalang.com";
 $mail->FromName = "Study Tracker App";
 
 
@@ -137,13 +140,21 @@ $tempat = $_POST['tpt_lahir'];
 $tanggal = $_POST['tgl_lahir'];
 $agama = $_POST['agama'];
 $alamat = $_POST['alamat'];
+$no_hp = $_POST['no_hp'];
 $tahun_lulus = $_POST['tahun_lulus'];
 $jurusan = $_POST['jurusan'];
 $agama = $_POST['agama'];
 $status = $_POST['status'];
 $instansi = $_POST['instansi'];
 $sejak = $_POST['sejak'];
-$sis = mysqli_query($conn, "UPDATE siswa SET nama='$nama',tgl_lahir='$tanggal',tpt_lahir='$tempat',alamat='$alamat',agama='$agama',tahun_lulus='$tahun_lulus',jurusan='$jurusan',create_at=NOW() WHERE nisn='$nisn'");
+$ceknomer = substr($no_hp, 0,2);
+if ($ceknomer=="62") {
+	$no_hp = "62".substr($no_hp, 2);
+}else{
+	$no_hp = "62".substr($no_hp, 1);
+}
+
+$sis = mysqli_query($conn, "UPDATE siswa SET nama='$nama',tgl_lahir='$tanggal',tpt_lahir='$tempat',alamat='$alamat',no_hp='$no_hp',agama='$agama',tahun_lulus='$tahun_lulus',jurusan='$jurusan',create_at=NOW() WHERE nisn='$nisn'");
 if ($sis)
 {
 	$sis = mysqli_query($conn, "UPDATE data_alumni SET status='$status',instansi='$instansi',sejak='$sejak' WHERE nisn='$nisn'");
@@ -166,14 +177,42 @@ $sis = mysqli_query($conn, "UPDATE siswa SET status_tracker='1' WHERE nisn='$nis
 if ($sis)
 {
 
-	echo "Approval sukses";
+	echo "Data telah di setujui";
 	
 }else{
 	echo "Proses Gagal :" . mysqli_error($conn);
 }
 
 
+
+
+break;
+case 'mail':
+
+$email =  $_POST['email'];
+$sis = mysqli_fetch_array(mysqli_query($conn, "SELECT siswa.nama,siswa.nisn,siswa.reminder FROM siswa INNER JOIN login ON siswa.nisn = login.username WHERE login.email='$email'"));
+
+$mail->addAddress($email, "Admin Study Tracker");
+$mail->isHTML(true);
+$message ='Hello '.$sis[0].', Kami mengingatkan bahwa kamu belum melengkapi data diri pada aplikasi Study Tracker';
+$mail->Subject = "Study Tracker";
+$mail->Body = "<i>".$message."</i>";
+$mail->AltBody = "Admin Study Tracker";
+$send=$mail->Send();		
+if ($sis[2]=='2') {
+	$reminder = '3';
+}else{
+	$reminder = '1';
+}
+		
+if ($send) {
+	$update = mysqli_query($conn, "UPDATE siswa SET reminder='$reminder' WHERE nisn='$sis[1]'");
+	echo "Pesan via Email Berhasil Terkirim";
+	
+}else{
+	echo "Pesan via Email Gagal Terkirim".$email ;
 }
 
+}
 
 ?>

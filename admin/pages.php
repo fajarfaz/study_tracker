@@ -36,7 +36,9 @@ $page = $_GET['page'];
 if (isset($_GET['page'])) {
   switch ($_GET['page']) { 
     case 'dash':
+
     ?>
+
     <div>
       <div class="mx-auto flex pt-16 pb-16 lg:pb-20 lg:px-24 md:px-16 sm:px-8 px-8 lg:flex-row flex-col">
         <!-- Left Column -->
@@ -51,7 +53,7 @@ if (isset($_GET['page'])) {
         <span style="color: #4E91F9;">Learn Skills</span> From 
         Our Best Mentor
       </h1>
-      <p class="text-base font-light leading-6 tracking-wide mb-20" style="color: #8B9CAF;">Hard to find a good mentor according to your wishes?<br>Don't worry because we are here to help you</p>
+      <p class="text-base font-light leading-6 tracking-wide mb-20" style="color: #8B9CAF;">Study Tracker adalah aplikasi untuk mendata dan mendeteksi <br>Perjalanan para siswa-siswi alumni SMK Ketintang menuju jenjang lain</p>
       <div class="md:flex contents items-center mx-auto lg:mx-0 lg:flex justify-center lg:space-x-8 md:space-x-2   space-x-0">
         <button class="btn-fill-header-3-3 inline-flex font-semibold text-white  text-base py-4 px-8 rounded-full mb-4 lg:mb-0 md:mb-0 focus:outline-none klik_menu"  id="stat"
         
@@ -117,7 +119,7 @@ if (isset($_GET['page'])) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
   <div class="lg:px-24 md:px-16 sm:px-8 px-8 pt-16">
    <div class="flex justify-between items-center">
-    <h2 class="title-font sm:text-5xl lg:text-6xl text-4xl font-semibold leading-8 mb-8">Statistik <span style="color: #4E91F9;">Study Tracker</span></h2>
+    <h2 class="title-font sm:text-5xl lg:text-6xl text-4xl font-semibold leading-8 mb-8">Statistik <span style="color: #4E91F9;"> Tracker Study</span></h2>
     </div>  
    
     <div class="border rounded-xl grid grid-cols-2 items-center py-4 mb-20 h-full">
@@ -151,7 +153,7 @@ if (isset($_GET['page'])) {
           data: {
             labels: ['Januari', 'Februari','Maret','April','Mei','Juni','Agustus','September','Oktober','Nopember','Desember'],
             datasets: [{
-              label: '# of Tomatoes',
+              label: '<?php echo $rowSta[0] ?> of Sudah Mengisi',
               data:[<?php echo $rowSta[0] ?>,<?php echo $rowAllSta[0] ?>],
               backgroundColor: [
               'rgba(255, 99, 132, 0.5)',
@@ -219,7 +221,7 @@ if (isset($_GET['page'])) {
               data:[<?php echo $rowLanjut[0] ?>,<?php echo $rowPegawai[0] ?>,<?php echo $rowWira[0] ?>,<?php echo $rowPra[0] ?>],
               backgroundColor: [
               'rgba(255, 99, 132, 0.5)',
-              'rgba(54, 162, 235, 0.2)',
+              'rgba(542, 162, 235, 0.2)',
               'rgba(255, 206, 86, 0.2)',
               'rgba(75, 192, 192, 0.2)'
               ],
@@ -853,6 +855,19 @@ if ($Datadiri['status_tracker']=='1') {
 
             </div>
           </div>
+           <div class="mt-4">
+            <label
+            class="block text-lg font-medium" style="color: #39465B;">No Telpon </label>
+            <div class="flex items-center w-full px-5 py-4 mt-3 text-base font-light rounded-xl input-empty-3-5 border bg-white">
+              <i class="fas fa-phone mr-4 text-gray-400"></i>
+
+              <input type="text" name="no_hp" id="no_hp" placeholder="Nomor Telpon Pribadi" minlength="5"
+              class="w-full focus:outline-none text-base font-light " required <?php if($lock==1){ echo "readonly"; } ?> value="<?php echo $Datadiri['no_hp']; ?>"
+              >
+
+            </div>
+            <span class="text-gray-500 text-sm">Contoh Pengisian: 08880545565 atau 6288805455656</span>
+          </div>
         </div>
 
         <div>
@@ -959,7 +974,7 @@ case 'siswa':
 ?>
 <div class="lg:px-24 md:px-16 sm:px-8 px-8 pt-16">
  <div class="flex justify-between items-center mb-8">
-  <h2 class="title-font sm:text-5xl lg:text-6xl text-4xl font-semibold leading-8">Manage  <span style="color: #4E91F9;">Siswa</span></h2>  
+  <h2 class="title-font sm:text-5xl lg:text-6xl text-4xl font-semibold leading-8">Manage <span style="color: #4E91F9;">Siswa</span></h2>  
   <div class="flex items-center gap-2">
     <div class="flex items-center  px-5 py-4 text-base font-light rounded-xl input-empty-3-5 border bg-white">
       <i class="fas fa-calendar-week mr-4 text-gray-400"></i>
@@ -1005,7 +1020,7 @@ case 'report':
 ?>
 <div class="lg:px-24 md:px-16 sm:px-8 px-8 pt-16">
  <div class="flex justify-between items-center mb-8">
-  <h2 class="title-font sm:text-5xl lg:text-6xl text-4xl font-semibold leading-8">Reporting<span style="color: #4E91F9;"> Study Tracker</span></h2>  
+  <h2 class="title-font sm:text-5xl lg:text-6xl text-4xl font-semibold leading-8">Reporting<span style="color: #4E91F9;">  Tracker Study</span></h2>  
   <div class="flex items-center gap-2">
     <div class="flex items-center  px-5 py-4 text-base font-light rounded-xl input-empty-3-5 border bg-white">
       <i class="fas fa-calendar-week mr-4 text-gray-400"></i>
@@ -1069,6 +1084,36 @@ case 'report':
     });
   });
   
+
+  $(".data-siswa").on("click", "#sms", function() {
+      var no_hp = $(this).attr("value");
+      $.ajax({
+        url: '../tesms.php',
+        type: 'post',
+        data: {
+          no_hp: no_hp
+        },
+        success: function(data) {
+          alert(data);
+          $('.data-siswa').load("data-siswa.php");
+        }
+      });
+    });
+    $(".data-siswa").on("click", "#mail", function() {
+      var email = $(this).attr("value");
+      $.ajax({
+        url: 'action_users.php?action=mail',
+        type: 'post',
+        data: {
+          email: email
+        },
+        success: function(data) {
+          alert(data);
+          $('.data-siswa').load("data-siswa.php");
+        }
+      });
+    });
+
    $(document).ready(function(){
     $('.data-report').load("data-report.php");
     $("#cari2").click(function(){

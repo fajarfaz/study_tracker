@@ -1,10 +1,11 @@
+
 <header
         x-data="{ open: false }"
         class="w-full grid grid-cols-1 lg:grid-cols-3 py-8 lg:px-24 md:px-16 sm:px-8 px-8 "
         >
         <div class="flex items-center justify-between">
           <a href="#">
-            <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header3/Header-3-6.png" alt="">
+            <img src="../komponen/image/logo.png" class="w-52" alt="">
           </a>
           <div class="flex justify-end items-center lg:hidden cursor-pointer">
             <svg
@@ -31,47 +32,46 @@
           class="bg-black fixed hidden w-full h-full top-0 left-0 z-30 bg-opacity-60"
           @click="open = !open"
         ></div>
-        
+        <?php 
+        @include '../komponen/koneksi.php';
+        $notif =  mysqli_fetch_array(mysqli_query($conn,"SELECT COUNT(login.status) FROM data_alumni INNER JOIN siswa ON data_alumni.nisn = siswa.nisn INNER JOIN login ON login.username = siswa.nisn WHERE login.status='Siswa' AND siswa.status_tracker='' AND siswa.alamat!=''"));
+         ?>
         <nav
-          :class="{'flex': open, 'hidden': !open}"
-          class="hidden z-50 fixed left-3 right-3 rounded-md shadow-md flex-col p-8 justify-center navigation-header-3-3 items-start lg:shadow-none lg:bg-transparent lg:p-0 lg:items-center lg:flex lg:flex-row lg:relative lg:space-x-7 bg-white"
+          :class="{'flex': open, 'hidden': !open}" 
+          class="hidden z-50 fixed left-3 right-3 rounded-md shadow-md flex-col p-8 justify-center navigation-header-3-3 items-start lg:shadow-none lg:bg-transparent lg:p-0 lg:items-center lg:flex lg:flex-row lg:relative lg:space-x-7 bg-white text-gray-500"
           
         >
-          <a href="#">  
-            <img class="m-0 lg:hidden mb-3" src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header3/Header-3-6.png" alt="">
-          </a>
+
+        
+       
           <?php  
           if($_SESSION['status']=="Admin"){?>
-          <a
-            href="#"
-            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative active klik_menu"   id="dash"
-            style="color: #243142"
-            >Home</a
-          >
-           <a
-            href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="stat"
+           <ul  x-data="{ nav_active:1 }" class="flex items-center">
+          <li @click="nav_active = 1" :class="{ '-mb-px': nav_active === 1 }" class="-mb-px " ><a
+            href="#" @click="nav_active = 1"  :class="nav_active === 1 ? 'border-b-2 border-blue-400 text-gray-700':' text-gray-400'"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="dash"         
+            >Home</a></li>
+           <li @click="nav_active = 2" :class="{ '-mb-px': nav_active === 2 }" class="" ><a
+            href="#" @click="nav_active = 2"  :class="nav_active === 2 ? 'border-b-2 border-blue-400 text-gray-700':' text-gray-400'"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu "   id="stat"            
+            >Statistik</a></li>
+          <li @click="nav_active = 3" :class="{ '-mb-px': nav_active === 3 }" class="" ><a
+            href="#" @click="nav_active = 3"  :class="nav_active === 3 ? 'border-b-2 border-blue-400 text-gray-700':' text-gray-400'"
+            class="relative text-sm font-medium mx-0 lg:mx-5 pr-5 my-4 lg:my-0  relative klik_menu flex gap-1"   id="approval"
             style="color: #8B9CAF"
-            >Statistik</a
-          >
-          <a
-            href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="approval"
-            style="color: #8B9CAF"
-            >Approval</a
-          >
-          <a
-            href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="siswa"
-            style="color: #8B9CAF"
-            >Siswa</a
-          >
-          <a
-            href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="users"
-            style="color: #8B9CAF"
-            >Users</a>
-
+            >Approval 
+            <span class="absolute right-0 bg-green-500 text-white rounded-full  align-middle inline-block  font-semibold text-xs flex items-center  px-1"><?php echo $notif[0]; ?>              
+            </span></a>
+          </li>
+          <li @click="nav_active = 4" :class="{ '-mb-px': nav_active === 4 }" class="" ><a
+            href="#" @click="nav_active = 4"  :class="nav_active === 4 ? 'border-b-2 border-blue-400 text-gray-700':' text-gray-400'"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="siswa"         
+            >Siswa</a></li>
+          <li @click="nav_active = 5" :class="{ '-mb-px': nav_active === 5 }" class="" ><a
+            href="#" @click="nav_active = 5"  :class="nav_active === 5 ? 'border-b-2 border-blue-400 text-gray-700':' text-gray-400'"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="users"           
+            >Users</a></li>
+            </ul>
           <?php }elseif($_SESSION['status']=="Disnaker"){ ?>
             <a
             href="#"
@@ -81,19 +81,19 @@
           >
           <a
           href="#"
-          class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="stat"
+          class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="stat"
           style="color: #8B9CAF"
           >Statistik</a
           >
           <a
             href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="siswa"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="siswa"
             style="color: #8B9CAF"
             >Siswa</a
           >
           <a
             href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="report"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="report"
             style="color: #8B9CAF"
             >Reporting</a
           >
@@ -109,13 +109,13 @@
           >
           <a
             href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="feature"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative klik_menu"   id="feature"
             style="color: #8B9CAF"
             >Feature</a
           >
           <a
             href="#"
-            class="text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0  relative"
+            class="text-sm font-medium mx-0 lg:mx-5 my-4 lg:my-0  relative"
             style="color: #8B9CAF"
             >Pricing</a
           >
@@ -187,4 +187,6 @@
             Logout
           </button>
         </div>
+
+
       </header>

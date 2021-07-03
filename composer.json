@@ -1,0 +1,16 @@
+{
+    "name": "study_tracker/composer",
+    "description": "Composer instal",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "faz",
+            "email": "fajarfaz@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^2.49",
+        "vonage/client": "^2.4"
+    }
+}

@@ -39,7 +39,7 @@
             else
             {
               $("#loading_spinner").css({"display":"none"});
-              alert("Wrong Details");
+              alert("NISN / Password anda Salah");
             }
           }
         });
@@ -183,7 +183,17 @@
     </div>
     </section>    
 
-   
+
+    <script>
+      function showPass() {
+        var x = document.getElementById("myInput");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+    </script>
     
     </body>
     
