@@ -36,6 +36,10 @@ $page = $_GET['page'];
 if (isset($_GET['page'])) {
   switch ($_GET['page']) { 
     case 'dash':
+    $tempo = date('Y-m-d', strtotime('+3 month', strtotime("2021-07-15")));       
+    $tempo = date_create($tempo);     
+    $akhir = date_create();             
+    $jatuh_tempo= date_diff($akhir,$tempo);
 
     ?>
 
@@ -75,8 +79,12 @@ if (isset($_GET['page'])) {
       <img class="absolute bottom-0 lg:block hidden lg:right-24 md:right-16 sm:right-8 right-8" src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header3/Header-3-2.png" alt="">          
       <div class="flex items-end lg:pl-16 pl-0" style="z-index:1;">
         <div class="container mx-auto flex flex-wrap items-center">
+
+
           <div class="card-header-3-3 rounded-xl p-5 flex flex-col md:ml-auto w-full mt-10 md:mt-0 space-y-5" style="background-color: #FFFFFF;">
+             <label class="font-semibold tracking-wide bg-blue-500 text-white py-2 rounded-lg">Disnaker Deadline</label>
             <div class="flex items-center space-x-4">
+
               <div>
                 <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header3/Header-3-3.png" alt="">                                                     
               </div>
@@ -90,20 +98,35 @@ if (isset($_GET['page'])) {
               </div>
               <div class="grid grid-cols-2 text-left">
                 <div>
-                  <p class="font-medium text-base mb-0.5" style="color: #1B8171;">
-                   <?php if($_SESSION['status']=='Admin'){echo "-";}else{ echo $Datadiri['tahun_lulus'];} ?>       
+                  <p class="font-medium text-sm mb-0.5" style="color: #1B8171;">
+                   <?php if($_SESSION['status']=='Admin'){echo "15 Jul 2021";}else{ echo $Datadiri['tahun_lulus'];} ?>       
                   </p>
-                  <p class="font-light text-xs" style="color: #AAA6A6;">Angkatan</p>
+                  <p class="font-light text-xs" style="color: #AAA6A6;">
+                    <?php if($_SESSION['status']=='Siswa'){ echo 'Angkatan'; }else{ echo 'Mulai'; } ?></p>
                 </div>
                 <div>
-                  <p class="font-medium text-base mb-0.5" style="color: #FF7468;">
-                    <?php if($_SESSION['status']=='Admin'){echo "-";}else{ echo $Datadiri['jurusan'];} ?>  
+                  <p class="font-medium text-sm mb-0.5 text-red-600" >
+                    <?php if($_SESSION['status']=='Admin'){echo date_format($tempo,"d M Y");}else{ echo $Datadiri['jurusan'];} ?>  
                   </p>
-                  <p class="font-light text-xs" style="color: #AAA6A6;">Jurusan</p>
+                  <p class="font-light text-xs" style="color: #AAA6A6;">
+                    <?php if($_SESSION['status']=='Siswa'){ echo 'Jurusan'; }else{ echo 'Sampai'; } ?> </p>
                 </div>
               </div>
+              <?php if($_SESSION['status']=='Siswa'){ ?>
               <button class="btn-fill-header-3-3 font-semibold text-white text-base py-3 px-16 mb-0.5 rounded-xl ">Hire Me</button>
+            <?php }else{
+
+                       
+             
+
+             echo " <button class='btn-fill-header-3-3 font-semibold text-white text-base py-3 px-16 mb-0.5 rounded-xl focus:outline-none klik_menu'  id='approval'>".$jatuh_tempo->days." hari </button>";
+             ?>
+
+
+              <?php }  ?>
             </div>
+
+
           </div>
         </div>
       </div>

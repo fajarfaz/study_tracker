@@ -38,13 +38,14 @@
     <th data-visible="false">Tahun Lulus</th>             
     <th >Jurusan</th>     
     <th >Tempat, Tanggal Lahir</th>          
-    <th >Agama</th>     
+    <th data-visible="false">Agama</th>     
     <th >Alamat</th> 
     <th data-visible="false">Status user</th>  
     <th data-visible="false">Nama Instansi</th> 
     <th data-visible="false">Sejak</th>      
-    <th data-visible="false">No Telpon</th>      
-    <th data-sortable="true">Status</th>      
+    <th data-visible="false">No Telpon</th>  
+   
+    <th data-sortable="true">Status</th>     
     <th >Pengingat</th>      
   </tr>
 </thead>
@@ -90,6 +91,16 @@ if (!empty($query)) {
     }else{
       $status= "<span class='text-green-500 font-semibold'>Done</span>";
     }
+    // $create_at = date_create($row['create_at']);
+    // $create_at = date_format($create_at,"Y-m-d");
+    // $tempo = date('Y-m-d', strtotime('-3 month', strtotime($create_at)));
+    // $akhir = date_create();
+    // $jatuh_tempo= date_diff(date_create($tempo),$akhir);
+    // if ($jatuh_tempo->d<=0) {
+    //   $jatuh_tempo = "<b>Expired</b>";
+    // }else{
+    //   $jatuh_tempo = $jatuh_tempo->d." Hari";
+    // }
     echo '<tr>
     <td>'.$no.'.</td>
     <td>'.$row['nisn'].'</td>         
@@ -103,6 +114,7 @@ if (!empty($query)) {
     <td>'.$row['instansi'].'</td> 
     <td>'.$row['sejak'].'</td> 
     <td>'.$row['no_hp'].'</td> 
+  
     <td>'.$status.'</td>   
 
     ';

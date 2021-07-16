@@ -5,7 +5,7 @@ $no_hp =  implode("no_hp", $_POST) ;
 $sis = mysqli_fetch_array(mysqli_query($conn, "SELECT nama,nisn FROM siswa WHERE no_hp='$no_hp'"));
 
 require 'vendor/autoload.php';
-$basic  = new \Vonage\Client\Credentials\Basic("6174654d", "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnutktUt6LEgLULDFg6H+ y7x4Fi/m8/oYEbUnENTSPShPZN3kMd28q0UVxMsg6OXf2t8ZS7/s7yQ1jl4mkXcd WK+PhBvZ9iAbbBvkbW3odgfSc/qny4Lt2BJl+L5Hd4u34E0prfNmUPT0DlZgY4zn iYGAb7nk8REU7+zEJN1JYYBEe8stbkWiuCDbk+xdIQMwEIR60B+z8UTT39f6EA2s ZHOZxMfjmDiQ98T0eZlHnYGejwb0z6SPp/DV3H4vmk8z3FlGeTZieJBo5LEIeLOC 17xeMTnCuXKTaoRux1X7LQd55FSbTmkDfxaUOpdUuJiYSV7DOTZ4uSVHVdwZ5Jof AQIDAQAB");
+$basic  = new \Vonage\Client\Credentials\Basic("b9fedfd5", "HPIaBIG2PvSY2lWi");
 $client = new \Vonage\Client($basic);
 
 $response = $client->sms()->send(
